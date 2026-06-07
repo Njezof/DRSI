@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DRSI — Direction Royale de la Sécurité Intérieure</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --red:#a01e1e;
+  --red-bright:#c42020;
+  --red-dim:rgba(160,30,30,0.5);
+  --red-faint:rgba(160,30,30,0.08);
+  --red-glow:rgba(160,30,30,0.15);
+  --gold:#b89040;
+  --charcoal:#0a0808;
+  --charcoal-2:#110e0e;
+  --charcoal-3:#181213;
+  --charcoal-4:#201618;
+  --cream:#e2d8d0;
+  --cream-dim:#948880;
+  --cream-faint:rgba(226,216,208,0.5);
+}
+
+body{background:var(--charcoal);color:var(--cream);font-family:'Jost',sans-serif;font-weight:400;line-height:1.7;overflow-x:hidden}
+
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--charcoal)}
+::-webkit-scrollbar-thumb{background:var(--red-dim)}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:1.2rem 3rem;border-bottom:1px solid rgba(160,30,30,0.15)}
+nav::before{content:'';position:absolute;inset:0;background:rgba(10,8,8,0.92);backdrop-filter:blur(12px);z-index:-1}
+.nav-brand{display:flex;align-items:center;gap:1rem;text-decoration:none}
+.nav-code{font-family:'Cinzel',serif;font-size:1.3rem;font-weight:900;color:var(--red-bright);letter-spacing:0.15em}
+.nav-sep{width:1px;height:24px;background:rgba(160,30,30,0.3)}
+.nav-full{font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--cream-dim);max-width:200px;line-height:1.5}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{color:var(--cream-dim);text-decoration:none;font-size:0.68rem;letter-spacing:0.25em;text-transform:uppercase;transition:color 0.25s}
+.nav-links a:hover{color:var(--red-bright)}
+.nav-badge{background:rgba(160,30,30,0.1);border:1px solid rgba(160,30,30,0.35);padding:0.25rem 0.75rem;font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.2em;color:var(--red-bright);cursor:pointer;text-decoration:none;transition:background 0.25s}
+.nav-badge:hover{background:rgba(160,30,30,0.2)}
+
+/* HERO */
+.hero{height:100vh;min-height:700px;display:grid;place-items:center;position:relative;overflow:hidden;text-align:center}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(160,30,30,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(160,30,30,0.04) 1px,transparent 1px);background-size:80px 80px}
+.hero-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;background:radial-gradient(ellipse,rgba(160,30,30,0.08) 0%,transparent 70%)}
+.hero-vignette{position:absolute;inset:0;background:radial-gradient(ellipse 70% 70% at 50% 50%,transparent 40%,var(--charcoal) 100%)}
+.hero-fade{position:absolute;bottom:0;left:0;right:0;height:250px;background:linear-gradient(transparent,var(--charcoal))}
+.hero-watermark{position:absolute;font-family:'Cinzel',serif;font-size:clamp(6rem,18vw,14rem);font-weight:900;color:transparent;-webkit-text-stroke:1px rgba(160,30,30,0.07);letter-spacing:0.2em;white-space:nowrap;pointer-events:none;top:50%;left:50%;transform:translate(-50%,-50%)}
+.hero-content{position:relative;z-index:10;display:flex;flex-direction:column;align-items:center}
+.hero-kingdom{font-size:0.65rem;letter-spacing:0.5em;text-transform:uppercase;color:var(--red-dim);margin-bottom:2rem;animation:fadeUp 1.2s ease both}
+.hero-shield{width:110px;height:130px;margin-bottom:2rem;animation:fadeUp 1.2s 0.15s ease both;filter:drop-shadow(0 0 20px rgba(160,30,30,0.25))}
+.hero-agency{font-size:0.62rem;letter-spacing:0.45em;text-transform:uppercase;color:var(--cream-dim);margin-bottom:0.8rem;animation:fadeUp 1.2s 0.25s ease both}
+.hero-title{font-family:'Cinzel',serif;font-size:clamp(1.6rem,4vw,3rem);font-weight:700;color:var(--cream);line-height:1.15;margin-bottom:0.6rem;animation:fadeUp 1.2s 0.3s ease both}
+.hero-rule{width:0;height:1px;background:linear-gradient(90deg,transparent,var(--red-bright),transparent);margin:1.5rem auto;animation:expandRule 1.5s 0.5s ease forwards}
+.hero-motto{font-family:'Crimson Text',Georgia,serif;font-style:italic;font-size:1.15rem;color:var(--cream-dim);animation:fadeUp 1.2s 0.6s ease both}
+.hero-year{display:flex;align-items:center;gap:1rem;margin-top:2.5rem;animation:fadeUp 1.2s 0.75s ease both}
+.hero-year span{font-size:0.62rem;letter-spacing:0.35em;text-transform:uppercase;color:rgba(160,30,30,0.5)}
+.hero-year::before,.hero-year::after{content:'';width:30px;height:1px;background:rgba(160,30,30,0.3)}
+
+/* SECTIONS */
+.section{padding:6rem 2rem;max-width:1100px;margin:0 auto}
+.section-meta{display:flex;align-items:center;gap:1rem;margin-bottom:0.75rem}
+.section-num{font-family:'Cinzel',serif;font-size:0.62rem;color:var(--red-bright);letter-spacing:0.3em}
+.section-line{height:1px;width:30px;background:rgba(160,30,30,0.5)}
+.section-label{font-size:0.62rem;letter-spacing:0.35em;text-transform:uppercase;color:var(--cream-dim)}
+.section-title{font-family:'Cinzel',serif;font-size:clamp(1.4rem,3vw,2.2rem);font-weight:600;color:var(--cream);margin-bottom:2.5rem;line-height:1.2}
+.section-title span{color:var(--red-bright)}
+
+/* ABOUT */
+.about-body{max-width:680px;color:var(--cream-dim);font-size:0.98rem;line-height:2}
+.about-body strong{color:var(--cream);font-weight:500}
+.about-body p+p{margin-top:1.2rem}
+
+/* VALUES BAND */
+.values-band{background:var(--charcoal-2);border-top:1px solid rgba(160,30,30,0.08);border-bottom:1px solid rgba(160,30,30,0.08);padding:3rem 2rem;margin-top:3rem}
+.values-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0;text-align:center}
+.value{padding:1.5rem 1rem;border-right:1px solid rgba(160,30,30,0.08)}
+.value:last-child{border-right:none}
+.value-icon{font-family:'Cinzel',serif;font-size:1.4rem;color:var(--red-bright);opacity:0.6;margin-bottom:0.5rem}
+.value-name{font-family:'Cinzel',serif;font-size:0.82rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--cream);margin-bottom:0.4rem}
+.value-desc{font-size:0.75rem;color:var(--cream-dim);line-height:1.7}
+
+/* MISSIONS */
+.missions-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1px;background:rgba(160,30,30,0.08)}
+.mission-card{background:var(--charcoal-2);padding:2.2rem 2rem;position:relative;overflow:hidden;transition:background 0.3s}
+.mission-card:hover{background:var(--charcoal-3)}
+.mission-card::after{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--red-bright);transform:scaleY(0);transform-origin:bottom;transition:transform 0.4s ease}
+.mission-card:hover::after{transform:scaleY(1)}
+.mission-n{font-family:'Cinzel',serif;font-size:3rem;font-weight:900;color:var(--red-faint);line-height:1;position:absolute;top:1.2rem;right:1.5rem}
+.mission-icon{margin-bottom:1.2rem;color:var(--red-bright);width:32px;height:32px;opacity:0.8}
+.mission-name{font-family:'Cinzel',serif;font-size:0.78rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--red-bright);margin-bottom:1rem}
+.mission-list{list-style:none;font-size:0.82rem;color:var(--cream-dim);line-height:2}
+.mission-list li{padding-left:1.2rem;position:relative}
+.mission-list li::before{content:'›';position:absolute;left:0;color:rgba(160,30,30,0.5)}
+
+/* ORGANISATION */
+.org-wrapper{margin-top:0.5rem}
+.org-top{background:var(--charcoal-3);border:1px solid rgba(160,30,30,0.15);padding:1.5rem 2rem;display:flex;gap:2rem;align-items:center;margin-bottom:1px}
+.org-top-badge{font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--red-bright);border:1px solid rgba(160,30,30,0.35);padding:0.3rem 0.8rem;white-space:nowrap}
+.org-top-text{font-size:0.88rem;color:var(--cream-dim)}
+.org-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1px;background:rgba(160,30,30,0.06)}
+.org-item{background:var(--charcoal-2);padding:1.5rem;transition:background 0.25s}
+.org-item:hover{background:var(--charcoal-3)}
+.org-dept{font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--red-bright);margin-bottom:0.5rem;opacity:0.75}
+.org-name{font-family:'Cinzel',serif;font-size:0.85rem;font-weight:600;color:var(--cream);margin-bottom:0.5rem;line-height:1.4}
+.org-desc{font-size:0.78rem;color:var(--cream-dim);line-height:1.7}
+
+/* STATS */
+.stats-bar{background:var(--charcoal-2);border-top:1px solid rgba(160,30,30,0.1);border-bottom:1px solid rgba(160,30,30,0.1);padding:4rem 2rem}
+.stats-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:2rem}
+.stat{text-align:center;border-right:1px solid rgba(160,30,30,0.07);padding:1rem}
+.stat:last-child{border-right:none}
+.stat-n{font-family:'Cinzel',serif;font-size:2.2rem;font-weight:700;color:var(--red-bright);letter-spacing:0.05em;margin-bottom:0.4rem}
+.stat-l{font-size:0.65rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--cream-dim)}
+
+/* FOOTER */
+footer{background:#050303;border-top:1px solid rgba(160,30,30,0.08);padding:4rem 2rem;text-align:center}
+.footer-shield{width:50px;height:60px;margin:0 auto 1.5rem;opacity:0.35}
+.footer-code{font-family:'Cinzel',serif;font-size:1.8rem;font-weight:900;letter-spacing:0.25em;color:var(--red-bright);margin-bottom:0.4rem}
+.footer-name{font-size:0.65rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--cream-dim);margin-bottom:1.5rem}
+.footer-devises{display:flex;flex-direction:column;gap:0.5rem;margin-bottom:1.5rem}
+.footer-devise{font-family:'Crimson Text',serif;font-style:italic;font-size:1rem;color:rgba(160,30,30,0.5)}
+.footer-rule{width:80px;height:1px;background:rgba(160,30,30,0.12);margin:1.5rem auto}
+.footer-class{font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;color:rgba(160,30,30,0.25);border:1px solid rgba(160,30,30,0.1);display:inline-block;padding:0.4rem 1.2rem}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes expandRule{from{width:0;opacity:0}to{width:200px;opacity:1}}
+.reveal{opacity:0;transform:translateY(22px);transition:opacity 0.8s ease,transform 0.8s ease}
+.reveal.in{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:0.1s}
+.reveal-delay-2{transition-delay:0.2s}
+.reveal-delay-3{transition-delay:0.3s}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-brand" href="#">
+    <span class="nav-code">DRSI</span>
+    <span class="nav-sep"></span>
+    <span class="nav-full">Direction Royale de la Sécurité Intérieure</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#missions">Missions</a></li>
+    <li><a href="#organisation">Organisation</a></li>
+    <li><a href="#valeurs">Valeurs</a></li>
+    <li><a class="nav-badge" href="drre.html">← DRRE</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="hero-grid"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-vignette"></div>
+    <div class="hero-fade"></div>
+    <div class="hero-watermark">DRSI</div>
+  </div>
+  <div class="hero-content">
+    <p class="hero-kingdom">Royaume de Black Reef</p>
+    <!-- Shield Emblem avec forteresse -->
+    <svg class="hero-shield" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="shieldRed" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#d42020"/>
+          <stop offset="100%" stop-color="#6a0f0f"/>
+        </linearGradient>
+      </defs>
+      <path d="M50 4L94 22V68C94 92 74 111 50 116C26 111 6 92 6 68V22Z" fill="rgba(160,30,30,0.06)" stroke="url(#shieldRed)" stroke-width="1.5"/>
+      <path d="M50 12L86 28V66C86 86 70 104 50 109C30 104 14 86 14 66V28Z" fill="none" stroke="rgba(160,30,30,0.2)" stroke-width="0.6"/>
+      <!-- Fortress / Castle -->
+      <rect x="30" y="62" width="40" height="34" fill="rgba(160,30,30,0.12)" stroke="rgba(160,30,30,0.9)" stroke-width="1"/>
+      <!-- Towers -->
+      <rect x="22" y="54" width="14" height="42" fill="rgba(160,30,30,0.12)" stroke="rgba(160,30,30,0.9)" stroke-width="1"/>
+      <rect x="64" y="54" width="14" height="42" fill="rgba(160,30,30,0.12)" stroke="rgba(160,30,30,0.9)" stroke-width="1"/>
+      <!-- Battlements left tower -->
+      <rect x="22" y="48" width="3.5" height="6" fill="rgba(160,30,30,0.8)" stroke="rgba(160,30,30,0.9)" stroke-width="0.5"/>
+      <rect x="28" y="48" width="3.5" height="6" fill="rgba(160,30,30,0.8)" stroke="rgba(160,30,30,0.9)" stroke-width="0.5"/>
+      <rect x="34" y="48" width="2.5" height="6" fill="rgba(160,30,30,0.8)" stroke="rgba(160,30,30,0.9)" stroke-width="0.5"/>
+      <!-- Battlements right tower -->
+      <rect x="64" y="48" width="3.5" height="6" fill="rgba(160,30,30,0.8)" stroke="rgba(160,30,30,0.9)" stroke-width="0.5"/>
+      <rect x="70" y="48" width="3.5" height="6" fill="rgba(160,30,30,0.8)" stroke="rgba(160,30,30,0.9)" stroke-width="0.5"/>
+      <rect x="76" y="48" width="2.5" height="6" fill="rgba(160,30,30,0.8)" stroke="rgba(160,30,30,0.9)" stroke-width="0.5"/>
+      <!-- Battlements main wall -->
+      <rect x="30" y="56" width="4" height="6" fill="rgba(160,30,30,0.8)" stroke="rgba(160,30,30,0.9)" stroke-width="0.5"/>
+      <rect x="37" y="56" width="4" height="6" fill="rgba(160,30,30,0.8)" stroke="rgba(160,30,30,0.9)" stroke-width="0.5"/>
+      <rect x="44" y="56" width="4" height="6" fill="rgba(160,30,30,0.8)" stroke="rgba(160,30,30,0.9)" stroke-width="0.5"/>
+      <rect x="52" y="56" width="4" height="6" fill="rgba(160,30,30,0.8)" stroke="rgba(160,30,30,0.9)" stroke-width="0.5"/>
+      <rect x="59" y="56" width="5" height="6" fill="rgba(160,30,30,0.8)" stroke="rgba(160,30,30,0.9)" stroke-width="0.5"/>
+      <!-- Gate -->
+      <rect x="42" y="78" width="16" height="18" rx="8" fill="rgba(10,8,8,0.8)" stroke="rgba(160,30,30,0.7)" stroke-width="0.8"/>
+      <!-- Window slots -->
+      <rect x="26" y="60" width="6" height="9" fill="rgba(10,8,8,0.7)" stroke="rgba(160,30,30,0.5)" stroke-width="0.5"/>
+      <rect x="68" y="60" width="6" height="9" fill="rgba(10,8,8,0.7)" stroke="rgba(160,30,30,0.5)" stroke-width="0.5"/>
+      <!-- Crown at top -->
+      <path d="M34 27 L38 20 L42 25 L50 17 L58 25 L62 20 L66 27 Z" fill="rgba(160,30,30,0.2)" stroke="#a01e1e" stroke-width="1" stroke-linejoin="round"/>
+      <line x1="34" y1="27" x2="66" y2="27" stroke="#a01e1e" stroke-width="1"/>
+    </svg>
+    <p class="hero-agency">Service de sécurité intérieure</p>
+    <h1 class="hero-title">Direction Royale de la<br>Sécurité Intérieure</h1>
+    <div class="hero-rule"></div>
+    <p class="hero-motto">« Vigilance, protection, stabilité. »</p>
+    <div class="hero-year"><span>Fondée en 1978</span></div>
+  </div>
+</section>
+
+<!-- PRÉSENTATION -->
+<section class="section" id="presentation">
+  <div class="section-meta reveal">
+    <span class="section-num">01</span>
+    <span class="section-line"></span>
+    <span class="section-label">À propos de l'agence</span>
+  </div>
+  <h2 class="section-title reveal">Présentation de la <span>DRSI</span></h2>
+  <div class="about-body reveal">
+    <p>La <strong>Direction Royale de la Sécurité Intérieure (DRSI)</strong> est l'agence nationale chargée de la protection du territoire, de la lutte contre les menaces intérieures et du contre-espionnage pour le <strong>Royaume de Black Reef</strong>.</p>
+    <p>Créée en <strong>1978</strong>, la DRSI agit sur l'ensemble du territoire national afin de préserver la stabilité, les institutions et la sécurité des citoyens du Royaume.</p>
+    <p>Elle travaille en étroite coopération avec les <strong>forces de l'ordre</strong>, les <strong>autorités judiciaires</strong> et les autres services de sécurité du Royaume. Elle opère sous l'autorité du <strong>Conseil Royal du Renseignement</strong>, au sein de la Communauté du Renseignement de Black Reef.</p>
+  </div>
+</section>
+
+<!-- MISSIONS -->
+<section class="section" id="missions" style="padding-top:2rem">
+  <div class="section-meta reveal">
+    <span class="section-num">02</span>
+    <span class="section-line"></span>
+    <span class="section-label">Domaines d'action</span>
+  </div>
+  <h2 class="section-title reveal">Nos <span>Missions</span></h2>
+  <div class="missions-grid">
+
+    <div class="mission-card reveal">
+      <span class="mission-n">01</span>
+      <svg class="mission-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        <path d="M9 12l2 2 4-4"/>
+      </svg>
+      <p class="mission-name">Contre-Espionnage</p>
+      <ul class="mission-list">
+        <li>Détection des activités de renseignement étrangères</li>
+        <li>Protection des informations sensibles</li>
+        <li>Neutralisation des tentatives d'infiltration</li>
+      </ul>
+    </div>
+
+    <div class="mission-card reveal reveal-delay-1">
+      <span class="mission-n">02</span>
+      <svg class="mission-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+        <rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-4"/><circle cx="9" cy="9" r="2"/>
+      </svg>
+      <p class="mission-name">Protection des Institutions</p>
+      <ul class="mission-list">
+        <li>Sécurisation des administrations</li>
+        <li>Protection des infrastructures critiques</li>
+        <li>Sécurité des personnalités nationales</li>
+      </ul>
+    </div>
+
+    <div class="mission-card reveal reveal-delay-2">
+      <span class="mission-n">03</span>
+      <svg class="mission-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+        <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+      </svg>
+      <p class="mission-name">Lutte contre les Menaces Graves</p>
+      <ul class="mission-list">
+        <li>Terrorisme</li>
+        <li>Sabotage</li>
+        <li>Criminalité organisée</li>
+        <li>Menaces contre la sécurité nationale</li>
+      </ul>
+    </div>
+
+    <div class="mission-card reveal">
+      <span class="mission-n">04</span>
+      <svg class="mission-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+        <rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>
+        <path d="M9 10l2 2 4-4"/>
+      </svg>
+      <p class="mission-name">Cybersécurité Nationale</p>
+      <ul class="mission-list">
+        <li>Protection des réseaux gouvernementaux</li>
+        <li>Surveillance des menaces numériques</li>
+        <li>Réponse aux incidents majeurs</li>
+      </ul>
+    </div>
+
+    <div class="mission-card reveal reveal-delay-1">
+      <span class="mission-n">05</span>
+      <svg class="mission-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        <line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/>
+      </svg>
+      <p class="mission-name">Renseignement Intérieur</p>
+      <ul class="mission-list">
+        <li>Analyse des risques internes</li>
+        <li>Prévention des atteintes à la sécurité nationale</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- ORGANISATION -->
+<section class="section" id="organisation" style="padding-top:2rem">
+  <div class="section-meta reveal">
+    <span class="section-num">03</span>
+    <span class="section-line"></span>
+    <span class="section-label">Structure interne</span>
+  </div>
+  <h2 class="section-title reveal"><span>Organisation</span> de la DRSI</h2>
+  <div class="org-wrapper reveal">
+    <div class="org-top">
+      <span class="org-top-badge">Direction Générale</span>
+      <span class="org-top-text">Dirige l'ensemble des activités de sécurité intérieure, coordonne les services et répond directement au Conseil Royal du Renseignement.</span>
+    </div>
+    <div class="org-grid">
+      <div class="org-item">
+        <p class="org-dept">Contre-Espionnage</p>
+        <p class="org-name">Direction du Contre-Espionnage</p>
+        <p class="org-desc">Chargée de la détection et de la neutralisation des menaces étrangères sur le territoire.</p>
+      </div>
+      <div class="org-item">
+        <p class="org-dept">Protection</p>
+        <p class="org-name">Direction de la Protection Nationale</p>
+        <p class="org-desc">Assure la sécurité des infrastructures critiques et des institutions de l'État.</p>
+      </div>
+      <div class="org-item">
+        <p class="org-dept">Numérique</p>
+        <p class="org-name">Direction de la Cybersécurité</p>
+        <p class="org-desc">Protège les systèmes numériques critiques et répond aux cybermenaces nationales.</p>
+      </div>
+      <div class="org-item">
+        <p class="org-dept">Évaluation</p>
+        <p class="org-name">Centre National d'Évaluation des Menaces</p>
+        <p class="org-desc">Coordonne l'analyse et l'évaluation permanente des risques pesant sur le Royaume.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALEURS -->
+<section class="section" id="valeurs" style="padding-top:2rem">
+  <div class="section-meta reveal">
+    <span class="section-num">04</span>
+    <span class="section-line"></span>
+    <span class="section-label">Principes fondamentaux</span>
+  </div>
+  <h2 class="section-title reveal">Nos <span>Valeurs</span></h2>
+  <div class="values-band reveal">
+    <div class="values-inner">
+      <div class="value">
+        <p class="value-icon">⬡</p>
+        <p class="value-name">Loyauté</p>
+        <p class="value-desc">Servir le Royaume et ses institutions avec un dévouement absolu.</p>
+      </div>
+      <div class="value">
+        <p class="value-icon">⬡</p>
+        <p class="value-name">Discrétion</p>
+        <p class="value-desc">Protéger les informations sensibles et préserver l'intégrité des opérations.</p>
+      </div>
+      <div class="value">
+        <p class="value-icon">⬡</p>
+        <p class="value-name">Excellence</p>
+        <p class="value-desc">Maintenir les plus hauts standards professionnels en toutes circonstances.</p>
+      </div>
+      <div class="value">
+        <p class="value-icon">⬡</p>
+        <p class="value-name">Intégrité</p>
+        <p class="value-desc">Agir dans le respect absolu des lois et des valeurs du Royaume.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar" id="effectifs">
+  <div class="stats-inner">
+    <div class="stat reveal">
+      <p class="stat-n">18 000</p>
+      <p class="stat-l">Agents & Analystes</p>
+    </div>
+    <div class="stat reveal reveal-delay-1">
+      <p class="stat-n">1978</p>
+      <p class="stat-l">Année de fondation</p>
+    </div>
+    <div class="stat reveal reveal-delay-2">
+      <p class="stat-n">National</p>
+      <p class="stat-l">Couverture territoriale</p>
+    </div>
+    <div class="stat reveal reveal-delay-3">
+      <p class="stat-n">24 / 7</p>
+      <p class="stat-l">Veille permanente</p>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <svg class="footer-shield" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
+    <path d="M50 4L94 22V68C94 92 74 111 50 116C26 111 6 92 6 68V22Z" fill="none" stroke="#a01e1e" stroke-width="1.5"/>
+    <rect x="34" y="60" width="32" height="36" fill="none" stroke="#a01e1e" stroke-width="1"/>
+    <rect x="26" y="52" width="12" height="44" fill="none" stroke="#a01e1e" stroke-width="1"/>
+    <rect x="62" y="52" width="12" height="44" fill="none" stroke="#a01e1e" stroke-width="1"/>
+  </svg>
+  <p class="footer-code">DRSI</p>
+  <p class="footer-name">Direction Royale de la Sécurité Intérieure — Royaume de Black Reef</p>
+  <div class="footer-devises">
+    <p class="footer-devise">« Vigilance, protection, stabilité. »</p>
+    <p class="footer-devise">« Protéger la Nation. Préserver son avenir. »</p>
+  </div>
+  <div class="footer-rule"></div>
+  <span class="footer-class">Document officiel — Usage restreint — CRBR</span>
+</footer>
+
+<script>
+const obs = new IntersectionObserver(entries => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('in'), i * 60);
+      obs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
